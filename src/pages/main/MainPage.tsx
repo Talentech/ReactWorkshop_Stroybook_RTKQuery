@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PageTitle } from "@talentech/components";
+import { Grid, PageTitle, Row, Table } from "@talentech/components";
 import { useSelector } from "react-redux";
 import { getOidcLanguage } from "@store/selectors/oidc";
 import i18n from "../../i18n";
@@ -10,7 +10,18 @@ const MainPage: React.FC = () => {
     i18n.changeLanguage(oidcLang);
   }, [oidcLang]);
 
-  return <PageTitle title="React Workshop" />;
+  return (
+    <>
+      <PageTitle title="React Workshop" />
+      <Grid container>
+        <Row>
+          <Grid>
+            <Table columns={[]} data={[]} />
+          </Grid>
+        </Row>
+      </Grid>
+    </>
+  );
 };
 
 export default MainPage;
