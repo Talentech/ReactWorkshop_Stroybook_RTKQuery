@@ -1,0 +1,33 @@
+import { User } from "oidc-client";
+
+export const oidcUserMock: User = {
+  id_token: "jwt-it-token",
+  session_state: "session-state-hash#123456789",
+  access_token: "access_token.access.token",
+  token_type: "token-type",
+  scope: "scopes",
+  profile: {
+    aud: "",
+    exp: 1562154,
+    iat: 1231321,
+    iss: "some iss",
+    sid: "some-id",
+    sub: "some-string",
+    auth_time: 1560491387,
+    idp: "AzureAD",
+    amr: ["external"],
+    role: ["role"],
+    groups: ["group"],
+    given_name: "Cypress",
+    family_name: "Test",
+    name: "Cypress User",
+    email: "cypress@domain.com",
+  },
+  expires_at: 2560492275,
+  expires_in: 2560492275,
+  refresh_token: "ABC",
+  state: "session-state",
+  expired: false,
+  scopes: ["a"],
+  toStorageString: () => null,
+};

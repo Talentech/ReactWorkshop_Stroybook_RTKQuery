@@ -1,0 +1,31 @@
+{
+  "baseUrl": "https://localhost:8080/",
+  "env": {
+    "usernames": {
+      "employee": "tm.AbsenceEmployee@fake.com",
+      "manager": "tm.AbsenceManager@fake.com",
+      "admin": "tm.AbsenceAdmin@fake.com"
+    },
+    "password": "TalentManager",
+    "applicationUrl": "https://localhost:8080/",
+    "applicationApiUrl": "https://localhost:44325/",
+    "sessionStorageKey": "oidc.user:https://test-login.talentech.io:talentech-talentmanager-client-app",
+    "seeded": false,
+    "sessionStorageValue": null,
+    "cookiesValue": null,
+    "talentechAuthApi": "http://localhost:3030/talentechId",
+    "FAIL_FAST_ENABLED": true
+  },
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/e2e-test-output.xml",
+    "toConsole": true,
+    "attachments": true
+  },
+  "video": false,
+  "chromeWebSecurity": false,
+  "retries": 3,
+  "viewportWidth": 1600,
+  "viewportHeight": 900,
+  "responseTimeout": 90000
+}

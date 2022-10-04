@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "target": "es5",
+    "typeRoots": ["node_modules/@types", "src/@types"],
+    "sourceMap": true,
+    "lib": ["es2018", "dom"],
+    "jsx": "react",
+    "allowUnusedLabels": false,
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "module": "esnext",
+    "allowJs": false,
+    "esModuleInterop": true,
+    "pretty": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "noEmit": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@store/*": ["src/store/*"],
+      "@auth/*": ["src/auth/*"],
+      "@mocks/*": ["src/__mocks__/*"]
+    }
+  },
+  "exclude": ["node_modules", "coverage"],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": ["./src/**/*"]
+  }
+}
