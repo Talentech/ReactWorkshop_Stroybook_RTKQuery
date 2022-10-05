@@ -24,11 +24,24 @@ export const peopleApi = createApi({
       }),
     }),
 
-    addPeople: builder.mutation<void, unknown>({
-      query: () => ({
+    addPeople: builder.mutation<void, IPeople & { id: string }>({
+      query: (body) => ({
         url: `/add-people`,
         method: "POST",
+        body,
       }),
+      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          peopleApi.util.updateQueryData("getAllPeople", undefined, (draft) => {
+            draft.push(patch);
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });

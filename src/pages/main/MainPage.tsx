@@ -24,8 +24,6 @@ const MainPage: React.FC = () => {
   const oidcLang = useSelector(getOidcLanguage);
   const { push } = useHistory();
 
-  const dispatch = useDispatch();
-
   const { people } = useGetAllPeopleQuery(undefined, {
     selectFromResult: ({ data, ...rest }) => ({
       people: data || [],
@@ -36,20 +34,28 @@ const MainPage: React.FC = () => {
   const [addPeople] = useAddPeopleMutation();
 
   const onAddPeople = () => {
-    addPeople({})
-      .unwrap()
-      .then((r) => {
-        dispatch(
-          peopleApi.util.updateQueryData(
-            "getAllPeople",
-            undefined,
-            (draftPosts) => {
-              console.log(draftPosts);
-              draftPosts.push(r as any);
-            }
-          )
-        );
-      });
+    addPeople({
+      id: "55",
+      name: "Adi Gallia // FORM",
+      height: "184",
+      mass: "50",
+      hair_color: "none",
+      skin_color: "dark",
+      eye_color: "blue",
+      birth_year: "unknown",
+      gender: "female",
+      homeworld: "https://swapi.dev/api/planets/9/",
+      films: [
+        "https://swapi.dev/api/films/4/",
+        "https://swapi.dev/api/films/6/",
+      ],
+      species: ["https://swapi.dev/api/species/23/"],
+      vehicles: [],
+      starships: [],
+      created: "2014-12-20T10:29:11.661000Z",
+      edited: "2014-12-20T21:17:50.432000Z",
+      url: "https://swapi.dev/api/people/55/",
+    });
   };
 
   /*
