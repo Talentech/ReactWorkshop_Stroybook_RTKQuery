@@ -29,6 +29,7 @@ const MainPage: React.FC = () => {
       people: data || [],
       ...rest,
     }),
+    pollingInterval: 3000,
   });
 
   const [addPeople] = useAddPeopleMutation();
