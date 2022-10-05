@@ -1,13 +1,38 @@
-import {
-  createAsyncThunk,
-  createEntityAdapter,
-  createSlice,
-  EntityId,
-  EntityState,
-} from "@reduxjs/toolkit";
-import Axios from "axios";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IPeople, ISWApiResponse } from "src/@types/star-wars";
 
+export const peopleApi = createApi({
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.SWAPI,
+  }),
+  reducerPath: "people",
+  endpoints: (builder) => ({
+    getAllPeople: builder.query<Array<IPeople & { id: string }>, unknown>({
+      query: () => ({
+        url: `/people`,
+      }),
+      transformResponse: (response: ISWApiResponse<IPeople>) =>
+        response.results.map((p: IPeople) => ({
+          ...p,
+          // @ts-ignore
+          id: p.url.split("people")[1].replaceAll("/", ""),
+        })),
+    }),
+    getPeopleById: builder.query<IPeople, string>({
+      query: (id) => ({
+        url: `/people/${id}`,
+      }),
+    }),
+  }),
+});
+
+export const { useGetAllPeopleQuery, useGetPeopleByIdQuery } = peopleApi;
+
+export const peopleReducer = {
+  [peopleApi.reducerPath]: peopleApi.reducer,
+};
+
+/*
 const scope = `@people`;
 
 enum Actions {
@@ -76,3 +101,4 @@ export const singlePeopleSelector = (
   store: { people: EntityState<IPeople> },
   id: EntityId
 ) => peopleSelectors.selectById(store, id);
+*/

@@ -7,16 +7,20 @@ import { ITableData } from "src/@types/common";
 import { IPeople } from "src/@types/star-wars";
 import { useHistory } from "react-router";
 import { AppRoutes } from "@utils/enums";
-import {
-  allPeopleSelector,
-  fetchAllPeople,
-  peopleLoadingStateSelector,
-} from "@store/features/starwars/starWarsSlice";
+import { useGetAllPeopleQuery } from "@store/features/starwars/starWarsSlice";
 
 const MainPage: React.FC = () => {
   const oidcLang = useSelector(getOidcLanguage);
   const { push } = useHistory();
 
+  const { people } = useGetAllPeopleQuery(undefined, {
+    selectFromResult: ({ data, ...rest }) => ({
+      people: data || [],
+      ...rest,
+    }),
+  });
+
+  /*
   const dispatch = useDispatch();
 
   const peopleState = useSelector(allPeopleSelector);
@@ -27,6 +31,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     dispatch(fetchAllPeople());
   }, []);
+  */
 
   useEffect(() => {
     i18n.changeLanguage(oidcLang);
@@ -69,7 +74,7 @@ const MainPage: React.FC = () => {
               striped
               defaultColumnWidth={200}
               columns={columns}
-              data={peopleState}
+              data={people}
             />
           </Grid>
         </Row>

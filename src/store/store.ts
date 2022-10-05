@@ -3,6 +3,7 @@ import { loadUser } from "redux-oidc";
 import reducer from "@store/reducer";
 import userManager from "@auth/UserManager";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { peopleApi } from "./features/starwars/starWarsSlice";
 
 const store = configureStore({
   reducer,
@@ -12,7 +13,7 @@ const store = configureStore({
         ignoredActions: ["redux-oidc/USER_FOUND"],
         ignoredPaths: ["oidc.user"],
       },
-    }),
+    }).concat(peopleApi.middleware),
 });
 
 setupListeners(store.dispatch);
