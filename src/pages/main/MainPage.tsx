@@ -1,17 +1,33 @@
 import React, { useEffect } from "react";
 import { Badge, Grid, PageTitle, Row, Table } from "@talentech/components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getOidcLanguage } from "@store/selectors/oidc";
 import i18n from "../../i18n";
 import { ITableData } from "src/@types/common";
 import { IPeople } from "src/@types/star-wars";
-import mockedData from "./data";
 import { useHistory } from "react-router";
 import { AppRoutes } from "@utils/enums";
+import {
+  allPeopleSelector,
+  fetchAllPeople,
+  peopleLoadingStateSelector,
+} from "@store/features/starwars/starWarsSlice";
 
 const MainPage: React.FC = () => {
   const oidcLang = useSelector(getOidcLanguage);
   const { push } = useHistory();
+
+  const dispatch = useDispatch();
+
+  const peopleState = useSelector(allPeopleSelector);
+  const peopleLoadingState = useSelector(peopleLoadingStateSelector);
+
+  console.log(peopleLoadingState);
+
+  useEffect(() => {
+    dispatch(fetchAllPeople());
+  }, []);
+
   useEffect(() => {
     i18n.changeLanguage(oidcLang);
   }, [oidcLang]);
@@ -38,10 +54,8 @@ const MainPage: React.FC = () => {
     },
   ];
 
-  const onRowClick = (data: IPeople) => {
-    // @ts-ignore
-    const pplId = data.url.split("people")[1].replaceAll("/", "");
-    push(AppRoutes.People.replace(":id", pplId));
+  const onRowClick = (data: IPeople & { id: string }) => {
+    push(AppRoutes.People.replace(":id", data.id));
   };
 
   return (
@@ -55,7 +69,7 @@ const MainPage: React.FC = () => {
               striped
               defaultColumnWidth={200}
               columns={columns}
-              data={mockedData.results}
+              data={peopleState}
             />
           </Grid>
         </Row>
