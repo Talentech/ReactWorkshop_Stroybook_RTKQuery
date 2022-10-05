@@ -5,6 +5,7 @@ export const peopleApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.SWAPI,
   }),
+  tagTypes: ["PPL"],
   reducerPath: "people",
   endpoints: (builder) => ({
     getAllPeople: builder.query<Array<IPeople & { id: string }>, unknown>({
@@ -17,6 +18,7 @@ export const peopleApi = createApi({
           // @ts-ignore
           id: p.url.split("people")[1].replaceAll("/", ""),
         })),
+      providesTags: ["PPL"],
     }),
     getPeopleById: builder.query<IPeople, string>({
       query: (id) => ({
@@ -30,18 +32,7 @@ export const peopleApi = createApi({
         method: "POST",
         body,
       }),
-      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          peopleApi.util.updateQueryData("getAllPeople", undefined, (draft) => {
-            draft.push(patch);
-          })
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          patchResult.undo();
-        }
-      },
+      invalidatesTags: ["PPL"],
     }),
   }),
 });
