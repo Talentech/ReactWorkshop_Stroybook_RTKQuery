@@ -6,9 +6,12 @@ import i18n from "../../i18n";
 import { ITableData } from "src/@types/common";
 import { IPeople } from "src/@types/star-wars";
 import mockedData from "./data";
+import { useHistory } from "react-router";
+import { AppRoutes } from "@utils/enums";
 
 const MainPage: React.FC = () => {
   const oidcLang = useSelector(getOidcLanguage);
+  const { push } = useHistory();
   useEffect(() => {
     i18n.changeLanguage(oidcLang);
   }, [oidcLang]);
@@ -36,13 +39,15 @@ const MainPage: React.FC = () => {
   ];
 
   const onRowClick = (data: IPeople) => {
-    alert(JSON.stringify(data));
+    // @ts-ignore
+    const pplId = data.url.split("people")[1].replaceAll("/", "");
+    push(AppRoutes.People.replace(":id", pplId));
   };
 
   return (
     <>
       <PageTitle title="React Workshop" />
-      <Grid container>
+      <Grid container className="mt-4">
         <Row>
           <Grid>
             <Table
