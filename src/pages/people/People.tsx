@@ -1,7 +1,10 @@
-import { singlePeopleSelector } from "@store/features/starwars/starWarsSlice";
+import {
+  fetchPeopleById,
+  singlePeopleSelector,
+} from "@store/features/starwars/starWarsSlice";
 import { Box, Grid, PageTitle, Row, Typography } from "@talentech/components";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 interface IPeopleProps {}
@@ -10,6 +13,18 @@ const People: React.FC<IPeopleProps> = (props) => {
   const { id } = useParams<{ id: string }>();
 
   const people = useSelector((store) => singlePeopleSelector(store as any, id));
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!people) {
+      dispatch(fetchPeopleById(id));
+    }
+  }, []);
+
+  if (!people) {
+    return <>Loading....</>;
+  }
 
   return (
     <>

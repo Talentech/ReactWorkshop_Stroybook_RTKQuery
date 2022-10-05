@@ -36,7 +36,11 @@ export const fetchAllPeople = createAsyncThunk<ISWApiResponse<IPeople>>(
 
 export const fetchPeopleById = createAsyncThunk<IPeople, string>(
   actionProvider(Actions.FETCH_ONE),
-  async (id) => peopleService.getPeopleById(id).then(({ data }) => data)
+  async (id) =>
+    peopleService.getPeopleById(id).then(({ data }) => ({
+      ...data,
+      id: data.url.split("people")[1].replaceAll("/", ""),
+    }))
 );
 
 const peopleAdapter = createEntityAdapter<IPeople>();
