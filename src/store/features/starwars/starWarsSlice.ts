@@ -23,10 +23,21 @@ export const peopleApi = createApi({
         url: `/people/${id}`,
       }),
     }),
+
+    addPeople: builder.mutation<void, unknown>({
+      query: () => ({
+        url: `/add-people`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllPeopleQuery, useGetPeopleByIdQuery } = peopleApi;
+export const {
+  useGetAllPeopleQuery,
+  useGetPeopleByIdQuery,
+  useAddPeopleMutation,
+} = peopleApi;
 
 export const peopleReducer = {
   [peopleApi.reducerPath]: peopleApi.reducer,

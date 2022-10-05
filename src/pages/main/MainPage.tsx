@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { Badge, Grid, PageTitle, Row, Table } from "@talentech/components";
+import {
+  Badge,
+  Button,
+  Grid,
+  PageTitle,
+  Row,
+  Table,
+} from "@talentech/components";
 import { useDispatch, useSelector } from "react-redux";
 import { getOidcLanguage } from "@store/selectors/oidc";
 import i18n from "../../i18n";
@@ -7,11 +14,17 @@ import { ITableData } from "src/@types/common";
 import { IPeople } from "src/@types/star-wars";
 import { useHistory } from "react-router";
 import { AppRoutes } from "@utils/enums";
-import { useGetAllPeopleQuery } from "@store/features/starwars/starWarsSlice";
+import {
+  peopleApi,
+  useAddPeopleMutation,
+  useGetAllPeopleQuery,
+} from "@store/features/starwars/starWarsSlice";
 
 const MainPage: React.FC = () => {
   const oidcLang = useSelector(getOidcLanguage);
   const { push } = useHistory();
+
+  const dispatch = useDispatch();
 
   const { people } = useGetAllPeopleQuery(undefined, {
     selectFromResult: ({ data, ...rest }) => ({
@@ -19,6 +32,25 @@ const MainPage: React.FC = () => {
       ...rest,
     }),
   });
+
+  const [addPeople] = useAddPeopleMutation();
+
+  const onAddPeople = () => {
+    addPeople({})
+      .unwrap()
+      .then((r) => {
+        dispatch(
+          peopleApi.util.updateQueryData(
+            "getAllPeople",
+            undefined,
+            (draftPosts) => {
+              console.log(draftPosts);
+              draftPosts.push(r as any);
+            }
+          )
+        );
+      });
+  };
 
   /*
   const dispatch = useDispatch();
@@ -66,6 +98,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       <PageTitle title="React Workshop" />
+      <Button onClick={onAddPeople} label="ADD" />
       <Grid container className="mt-4">
         <Row>
           <Grid>
